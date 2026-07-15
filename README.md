@@ -1,8 +1,7 @@
 # Handwritten Digit Recognition with a Low-Level Neural Network
 
 An MLP for MNIST digit classification implemented entirely from scratch
-using low-level TensorFlow primitives — custom dense layers, Xavier weight
-initialization, and a hand-coded Adam optimizer — with model export and
+using low-level TensorFlow primitives — custom dense layers,and a hand-coded Adam optimizer — with model export and
 confusion-matrix evaluation.
 
 ## Overview
@@ -16,26 +15,6 @@ confusion-matrix evaluation.
 - **Goal:** demonstrate the mechanics of a neural network (forward pass,
   loss, backprop, optimizer) without relying on `tf.keras.layers` or
   `model.fit`
-
-## Architecture
-
-```
-Input (784, flattened 28x28)
-   -> DenseLayer(700, activation=relu, Xavier init)
-   -> DenseLayer(10)  # logits, identity activation
-```
-
-Custom components, all built on `tf.Module`:
-
-- **`DenseLayer`** — manually manages weights/biases, lazily built on first
-  call to infer input dimension, applies Xavier-uniform initialization
-- **`MLP`** — composes a list of `DenseLayer`s into a forward pass
-- **`Adam`** — a from-scratch implementation of the Adam optimizer
-  (first/second moment estimates, bias correction, manual
-  `apply_gradients`)
-- **Loss:** manually computed sparse softmax cross-entropy
-  (`tf.nn.sparse_softmax_cross_entropy_with_logits`)
-- **Accuracy:** manually computed via `argmax` comparison
 
 ## Pipeline
 
@@ -61,33 +40,3 @@ Custom components, all built on `tf.Module`:
 pip install tensorflow tensorflow-datasets pandas matplotlib seaborn scikit-learn
 ```
 
-## Usage
-
-```bash
-jupyter notebook mnist_lowlevel_mlp.ipynb
-```
-
-MNIST is downloaded automatically via `tensorflow_datasets` on first run.
-
-## Results
-
-Reports:
-- Training/validation loss and accuracy curves over 10 epochs
-- Overall test accuracy
-- Accuracy broken down by digit (0–9)
-- Confusion matrix (normalized, heatmap)
-
-## Known limitations
-
-- Fixed architecture (700 → 500 → 10 planned in config, though only two
-  layers are instantiated in the final model) and fixed 10 epochs, no
-  hyperparameter search
-- No dropout/regularization — relies purely on architecture simplicity to
-  avoid overfitting
-- Custom Adam implementation is for educational purposes; not
-  performance-optimized relative to `tf.keras.optimizers.Adam`
-
-## Tech stack
-
-Python, TensorFlow (low-level API / `tf.Module`), TensorFlow Datasets,
-Scikit-learn, Seaborn, Matplotlib
