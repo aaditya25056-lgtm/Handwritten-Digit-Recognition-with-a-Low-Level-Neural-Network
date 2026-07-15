@@ -1,7 +1,7 @@
 # Handwritten Digit Recognition with a Low-Level Neural Network
 
 An MLP for MNIST digit classification implemented entirely from scratch
-using low-level TensorFlow primitives — custom dense layers,and a hand-coded Adam optimizer — with model export and
+using low-level TensorFlow primitives custom dense layers,and a hand-coded Adam optimizer — with model export and
 confusion-matrix evaluation.
 
 ## Overview
